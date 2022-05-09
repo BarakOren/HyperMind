@@ -2,11 +2,8 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components"
 
 const Div = styled.div`
-    /* display: ${p => p.toggle ? "flex" : "none"}; */
     width: 100%;
     height: 50%;
-    visibility: ${p => p.toggle ? "visible" : "hidden"}; 
-    opacity: ${p => p.delay ? "1" : "0"};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +20,6 @@ const Row = styled.div`
 const Dislikes = (props) => {
     const {toggle, dislikes} = props
     const [delay, setDelay] = useState(false)
-    // console.log(dislikes)
     useEffect(() => {
         setTimeout(() => {
             setDelay(!delay)
