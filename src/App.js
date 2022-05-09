@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback } from "react";
-import {GlobalStyle, AppStyle, Users, StatsDiv, Investors} from "./styles";
+import {GlobalStyle, AppStyle, Users, StatsDiv, Investors, AllDocs} from "./styles";
 import Row from "./components/row"
 import Header from "./components/header"
 import styled from "styled-components"
+import SortedRoles from "./components/sortedRoles"
 
 const Div = styled.div`
   width: 100%;
@@ -19,6 +20,7 @@ function App() {
   const [data, setData] = useState([])
   const [names, setNames] = useState()
   const [stats, setStats] = useState()
+  const [sortedRoles, setSortedRoles] = useState()
   const [dislikes, setDislikes] = useState()
 
 
@@ -94,10 +96,15 @@ function App() {
               mappedGroups.forEach(b => {
                 if(Object.values(a)[0].mainGroup === b[0]){
                   groups[b[0]].push(a)
+                  // a = object with docId as key, in value - role, value, and groups name.
                 }
               })
             })
         })
+
+        // from here and on, "groups" is filled with all the teams.
+        setSortedRoles(mappedGroups)
+
 
           let dislikes = {
             a300: [],
@@ -151,24 +158,22 @@ function App() {
     <AppStyle>
       <GlobalStyle/>
         <Header />
-
       {!loading && 
       <Div>
         <StatsDiv>
+          <AllDocs>All Docs</AllDocs>
           <Users>Users: {stats.users}</Users>
           <Investors>Investors: {stats.investors}</Investors>
         </StatsDiv>
            {data.map((rowIdea,index) => {
- 
-             const dislikesMap = new Map(Object.entries(dislikes))
-             const mappedDislikes = Array.from(dislikesMap)
-             const dislikesProps = []
-             mappedDislikes.forEach((idea) => {
-                if(idea[1].length > 0 && "a" + rowIdea[0] === idea[0]){
-                  dislikesProps.push(idea)
-                }
-            })
-
+                const dislikesMap = new Map(Object.entries(dislikes))
+                const mappedDislikes = Array.from(dislikesMap)
+                const dislikesProps = []
+                mappedDislikes.forEach((idea) => {
+                    if(idea[1].length > 0 && "a" + rowIdea[0] === idea[0]){
+                      dislikesProps.push(idea)
+                    }
+                })
              return (
                <Row key={index} index={index} length={data.length} 
                object={Object.values(rowIdea)[1]} 
@@ -178,6 +183,8 @@ function App() {
                />
              )
            })}
+           <SortedRoles sortedRoles={sortedRoles}/>
+
       </Div>
       }
        

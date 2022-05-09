@@ -68,7 +68,7 @@ const NameAndId = (props) => {
             <ProjectName 
             ref={textRef} onClick={() => setModalToggle(true)
             }>
-                {projectName.slice(0,30)}...
+                {projectName.slice(0,25)}...
             </ProjectName>
             
             {modalToggle && <Modal 

@@ -32,34 +32,20 @@ const Button = styled.button`
     position: relative;
     left: 40px;
     background-color: #FA4B4B40;
-    /* background-image: linear-gradient(to right, #461313, #531919, #601f1f, #6e2525, #7c2b2b); */
     transition: .2s all;
+    opacity: ${p => p.disabled ? "0.5" : "1"};
     :hover{
         transition: .2s all;
-        box-shadow: 2px 2px 10px rgb(255, 255, 255, 0.3);
+        box-shadow: ${p => p.disabled ? "none" : "2px 2px 20px #FA4B4B60"};
         cursor: pointer;
     }
     `
-
-// const Arrow = styled.div`
-//     position: relative;
-//     right: -10px;
-//   border: solid white;
-//   border-width: 0 5px 5px 0;
-//   display: inline-block;
-//   padding: 5px;
-//   transform: rotate(45deg);
-//   -webkit-transform: rotate(45deg);
-//   cursor: pointer;
-// `
-
 
 const Row = (props) => {
     const {projectId, object, projectName, length, dislikes} = props;
     // object.bf object.redToks object.redInvs object.greenToks object.greenInvs
     const [toggle, setToggle] = useState(false)
     const mappedDislikes = new Map(Object.entries(dislikes))
-   
     return(
         <RowContainer bg={`${object.classification.bgColor}50`}>
             <NameAndId length={length} index={props.index} object={object} projectName={projectName} projectId={projectId} />
@@ -68,9 +54,11 @@ const Row = (props) => {
             {/* {haters && haters.length > 0 && haters.map((a, index) => {
                 if(a.idea === projectId)return <p key={index}>{a.result} hates it</p>
             })} */}
-            <Button onClick={() => setToggle(!toggle)}>Dislikes</Button>
-            {/* <Dislikes toggle={toggle} 
-            dislikes={mappedDislikes.size > 0 ? mappedDislikes : null}/> */}
+            <Button disabled={dislikes.length === 0} onClick={() => setToggle(!toggle)}>Dislikes</Button>
+            {toggle && <Dislikes
+            dislikes={mappedDislikes.size > 0 ? mappedDislikes : null}
+            setToggle={setToggle}
+            /> }
         </RowContainer>
     )
 }

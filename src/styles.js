@@ -65,5 +65,9 @@ export const Investors = styled.p`
   border-radius: 10px;
   padding:15px;
   background-image: linear-gradient(to right, #5f3a9c, #57368e, #4e3380, #472f72, #3f2b64);
+`
 
+export const AllDocs = styled.h1`
+  font-size: 50px;
+  margin: 0;
 `
