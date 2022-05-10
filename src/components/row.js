@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import Stats from "./stats"
 import NameAndId from "./nameNid"
@@ -43,7 +43,6 @@ const Button = styled.button`
 
 const Row = (props) => {
     const {projectId, object, projectName, length, dislikes} = props;
-    // object.bf object.redToks object.redInvs object.greenToks object.greenInvs
     const [toggle, setToggle] = useState(false)
     const mappedDislikes = new Map(Object.entries(dislikes))
     return(
@@ -51,9 +50,6 @@ const Row = (props) => {
             <NameAndId length={length} index={props.index} object={object} projectName={projectName} projectId={projectId} />
             <Stats  object={object} />
             <Graph  object={object} />
-            {/* {haters && haters.length > 0 && haters.map((a, index) => {
-                if(a.idea === projectId)return <p key={index}>{a.result} hates it</p>
-            })} */}
             <Button disabled={dislikes.length === 0} onClick={() => setToggle(!toggle)}>Dislikes</Button>
             {toggle && <Dislikes
             dislikes={mappedDislikes.size > 0 ? mappedDislikes : null}
