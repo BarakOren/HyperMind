@@ -1,7 +1,6 @@
 import React, {useState, useRef} from "react"
 import styled from "styled-components"
 
-
 const NameNId = styled.div`
     width: 25%;
     height: 100%;

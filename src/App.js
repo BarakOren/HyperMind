@@ -4,6 +4,7 @@ import Row from "./components/row"
 import Header from "./components/header"
 import styled from "styled-components"
 import SortedRoles from "./components/sortedRoles"
+import Loader from "./components/loading";
 
 const Div = styled.div`
   width: 100%;
@@ -29,42 +30,26 @@ function App() {
     fetch(url).then(res => res.json())
     .then(data => {
      setNames(data.docs)
+     //mapping and sorting the data from *ALL*
       var all = Object.values(data.attributes)[8].cohorts["*ALL*"]
       setStats({users: all.globalUserCnt, investors: all.investorCnt})
-      // all.globalUserCnt
-      // all.investorCnt
       const allDocs = new Map(Object.entries(all.docStats))
       var mapAsc = new Map([...allDocs].sort(function(a,b){return a[1].greenToks - b[1].greenToks}
       ).reverse())
       setData(Array.from(mapAsc))
 
-      let arrays = {
-        a300: [],
-        a276: [],
-        a289: [],
-        a246: [],
-        a230: [],
-        a241: [],
-        a292: [],
-        a293: [],
-        a272: [],
-        a234: [],
-        a291: []
-      }
+      let arrays = {a300: [],a276: [],a289: [],a246: [],a230: [],a241: [],a292: [],a234: [],a291: []}
       const arraysMap = new Map(Object.entries(arrays))
       const mappedArrays = Array.from(arraysMap)
    
       const MappedRoles = new Map(Object.entries(data.attributes))
       MappedRoles.forEach((value, key) => {
-        //  console.log(value.cohorts)
         let mainGroup = key
          const MappedCohorts = new Map(Object.entries(value.cohorts))
-        //  console.log(MappedCohorts)
-         //mapped cohorts returns key: "VOCAA Partner" value: "docStats"
+         //mappedcohorts returns key: "VOCAA Partner" value: "docStats"
          MappedCohorts.forEach((value, key) => {
             const MappedIdeas = new Map(Object.entries(value.docStats))
             let groupsName = key // goverment, etc..
-
             MappedIdeas.forEach((value, key) => {
               key = "a" + key;
               var obj = {[key]: {mainGroup, groupsName, value}}
@@ -77,17 +62,11 @@ function App() {
             })
          })
      
-         let groups = {
-          chapterTitle: [],
-          model: [],
-          region: [],
-          role: [],
-          setting: [],
-          size: [],
-          title: [],
-          type: []
-        }
 
+         //sort by attributes. (second part of the application)
+         let groups = {chapterTitle: [],model: [],region: [],role: [],setting: [],
+          size: [],title: [],type: []
+        }
         const groupsMap = new Map(Object.entries(groups))
         const mappedGroups = Array.from(groupsMap)
 
@@ -106,46 +85,33 @@ function App() {
         setSortedRoles(mappedGroups)
 
 
-          let dislikes = {
-            a300: [],
-            a276: [],
-            a289: [],
-            a246: [],
-            a230: [],
-            a241: [],
-            a292: [],
-            a293: [],
-            a272: [],
-            a234: [],
-            a291: []
-          }
-          const dislikesMap = new Map(Object.entries(dislikes))
-          const mappedDisplikes = Array.from(dislikesMap)
-
-          mappedGroups.forEach(a => {
-            Object.values(a)[1].forEach(b => {
-              // console.log(Object.keys(b)[0]) // return a230
-              const name = Object.values(b)[0].groupsName
-              const vals = Object.values(b)[0].value
-              if(vals.greenToks < vals.redToks){
-                mappedDisplikes.forEach((idea => {
-                  if(idea[0] === Object.keys(b)[0]){
-                    dislikes[idea[0]].push({
-                      [name]: {greenTokens: vals.greenToks, redToken: vals.redToks, 
-                      mainGroup: Object.values(b)[0].mainGroup}
-                    })
-                  }
-                }))
-              }
+        //store all unlikes ideas to present in the *ALL* (top) section.
+        let dislikes = {a300: [],a276: [],a289: [],a246: [],a230: [],a241: [],a292: [],a293: [],a272: [],a234: [],a291: []}
+        const dislikesMap = new Map(Object.entries(dislikes))
+        const mappedDisplikes = Array.from(dislikesMap)
+        mappedGroups.forEach(a => {
+          Object.values(a)[1].forEach(b => {
+            // console.log(Object.keys(b)[0]) // return a230
+            const name = Object.values(b)[0].groupsName
+            const vals = Object.values(b)[0].value
+            if(vals.greenToks < vals.redToks){
+              mappedDisplikes.forEach((idea => {
+                if(idea[0] === Object.keys(b)[0]){
+                  dislikes[idea[0]].push({
+                    [name]: {greenTokens: vals.greenToks, redToken: vals.redToks, 
+                    mainGroup: Object.values(b)[0].mainGroup}
+                  })
+                }
+              }))
+            }
             })
           })
-
         setDislikes(dislikes)
-
       }); 
 
-      setLoading(false)
-
+      setTimeout(() => {
+          setLoading(false)
+      }, 2000)
     })
   }, [url])
    
@@ -158,6 +124,7 @@ function App() {
     <AppStyle>
       <GlobalStyle/>
         <Header />
+      <Loader loading={+loading} />
       {!loading && 
       <Div>
         <StatsDiv>
@@ -184,7 +151,6 @@ function App() {
              )
            })}
            <SortedRoles sortedRoles={sortedRoles}/>
-
       </Div>
       }
        

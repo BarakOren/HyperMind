@@ -19,9 +19,9 @@ const ButtonStyle = styled.button`
     }
 `
 
-const Button = ({name, setSelection, selection}) => {
+const Button = ({name, setSelection, selection, setSelectionType}) => {
     return(
-        <ButtonStyle disabled={name === selection} onClick={() => setSelection(name)}>
+        <ButtonStyle disabled={name === selection} onClick={() => {setSelection(name); setSelectionType("role")}}>
             {name.charAt(0).toUpperCase() + name.slice(1)}
         </ButtonStyle>
     )

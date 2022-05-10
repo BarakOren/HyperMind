@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import styled from "styled-components"
 
 const Div = styled.div`
@@ -55,12 +55,11 @@ const Dislikes = (props) => {
     const {dislikes, setToggle} = props
         let show = []
         dislikes.forEach(dis => {   
-        Object.values(dis)[1].map(d => {
+        Object.values(dis)[1].forEach(d => {
             show.push(d)
         })
         })
-            // object = Object.values(group)[0] .redToken .greenTokens .mainGroup
-    
+
         return(
         <Div>
             <X onClick={() => setToggle(false)}>X</X>
@@ -69,7 +68,7 @@ const Dislikes = (props) => {
                 <Text>Role</Text>
                 <Text>Cohorts</Text>
                 <Text>Green</Text>
-                <Text >Red</Text>
+                <Text>Red</Text>
             </Row>
             {show.map((d, index) => {
                 const obj = Object.values(d)[0]

@@ -18,7 +18,7 @@ height: 40%;
 const GreenBar = styled.div`
 transition: 1.5s all;
 border-radius: 0 10px 10px 0;
-height: 25px;
+height: 20px;
 width: ${p => p.size};
 background-color: #7AC85F;
 background: linear-gradient(270deg, #7AC85F 30%, #346423 100%);
@@ -32,7 +32,7 @@ transform-origin: top left;
 const RedBar = styled.div` 
 transition: 1.5s all;
 border-radius: 0 10px 10px 0;
-height: 25px;
+height: 20px;
 width: ${p => p.size};
 background: linear-gradient(270deg, #FA4B4B 30%, #7A2121 100%);
 position: relative;
@@ -47,7 +47,7 @@ position: relative;
 left: 52%;
 opacity: ${p => p.opacity};
 transition: 1.5s all;
-bottom: 1px;
+bottom: 4px;
 margin: 0;
 `
 
@@ -57,7 +57,7 @@ position: relative;
 transition: 1.5s all;
 opacity: ${p => p.opacity};
 right: 50%;
-bottom: 1px;
+bottom: 4px;
 margin: 0;
 `
 

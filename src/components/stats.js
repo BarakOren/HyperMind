@@ -9,7 +9,6 @@ const Div = styled.div`
     justify-content: space-evenly;
     align-items: center;
     transition: 1s all;
-
 `
 
 const Row = styled.div`
@@ -36,7 +35,6 @@ const Stat = styled.p`
 
 const Stats = (props) => {
     const {object} = props
-    // object.bf object.redToks object.redInvs object.greenToks object.greenInvs
     return(
         <Div>
             <Row>
