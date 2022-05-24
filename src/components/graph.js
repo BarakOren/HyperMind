@@ -49,6 +49,8 @@ opacity: ${p => p.opacity};
 transition: 1.5s all;
 bottom: 4px;
 margin: 0;
+width: 50px;
+
 `
 
 const RedTokens = styled.p`
@@ -59,6 +61,7 @@ opacity: ${p => p.opacity};
 right: 50%;
 bottom: 4px;
 margin: 0;
+width: 50px;
 `
 
 const Graph = (props) => {
@@ -72,17 +75,24 @@ const Graph = (props) => {
         setRedSize(object.redToks)
     }, 1000)
 
-    var greenMargin = {transform: `translateX(${-greenSize * 2 - 40}px)`}
-    var redMargin = {transform: `translateX(${redSize * 2 + 30 }px)`}
+    var greenTokenMargin = greenSize > 40 ? 
+        {transform: `translateX(${-greenSize * 2 - 20}px)`}
+        :
+        {transform: `translateX(${-greenSize * 2 - 40}px)`}
+    
+    var redTokenMargin = redSize > 40 ? 
+    {transform: `translateX(${redSize * 2 + 20 }px)`}
+    :
+    {transform: `translateX(${redSize * 2 + 30 }px)`}
 
     return(
         <Div toggle={toggle}>
-        <GreenTokens opacity={opacity} style={greenMargin}>{object.greenToks}</GreenTokens>
+        <GreenTokens opacity={opacity} style={greenTokenMargin}>{object.greenToks}</GreenTokens>
         <GraphDiv>
-            <RedBar size={`${redSize * 2}px`} toggle={toggle}></RedBar>
-            <GreenBar size={`${greenSize * 2}px`} toggle={toggle}/>
+            <RedBar size={`${redSize * 1.5}px`} toggle={toggle}></RedBar>
+            <GreenBar size={`${greenSize * 1.5}px`} toggle={toggle}/>
         </GraphDiv>
-        <RedTokens opacity={opacity} style={redMargin}>{object.redToks}</RedTokens>
+        <RedTokens opacity={opacity} style={redTokenMargin}>{object.redToks}</RedTokens>
         </Div>
     )
 }
